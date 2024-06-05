@@ -13,7 +13,7 @@ import java.util.Optional;
 public class JwtService {
     private static final String BEARER = "Bearer ";
     private static final int PARTS = 3;
-    private static final String USER_CLAIM = "user";
+    private static final String UUID_CLAIM = "uuid";
     private static final String ROLE_CLAIM = "role";
 
     private final String secret;
@@ -35,20 +35,20 @@ public class JwtService {
         }
     }
 
-    public String createToken(String user, String role) {
+    public String createToken(String uuid, String role) {
         return BEARER + JWT.create()
                 .withIssuer(this.issuer)
                 .withIssuedAt(new Date())
                 .withNotBefore(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + this.expire * 1000L))
-                .withClaim(USER_CLAIM, user)
+                .withClaim(UUID_CLAIM, uuid)
                 .withClaim(ROLE_CLAIM, role)
                 .sign(Algorithm.HMAC256(this.secret));
     }
 
     public String user(String authorization) {
         return this.verify(authorization)
-                .map(jwt -> jwt.getClaim(USER_CLAIM).asString())
+                .map(jwt -> jwt.getClaim(UUID_CLAIM).asString())
                 .orElse("");
     }
 

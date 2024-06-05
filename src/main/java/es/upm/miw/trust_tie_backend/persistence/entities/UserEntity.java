@@ -19,11 +19,9 @@ import java.util.UUID;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-
     @UuidGenerator
-    private UUID uuid;
+    @Column(nullable = false, unique = true)
+    private UUID userUuid;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -40,14 +38,13 @@ public class UserEntity {
     private LocalDateTime deletedAt;
 
     public UserEntity(User user) {
+        this.userUuid = user.getUserUuid();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole();
     }
 
-    public UserEntity(User user, String encodedPassword) {
-        this.email = user.getEmail();
-        this.password = encodedPassword;
-        this.role = user.getRole();
+    public User toUser() {
+        return new User(this.userUuid, this.email, this.password, this.role);
     }
 }
