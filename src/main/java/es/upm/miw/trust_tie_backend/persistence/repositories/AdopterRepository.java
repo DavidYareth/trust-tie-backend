@@ -8,7 +8,5 @@ import java.util.UUID;
 
 public interface AdopterRepository extends JpaRepository<AdopterEntity, Long> {
     boolean existsByFirstNameAndLastNameAndPhone(String firstName, String lastName, String phone);
-    boolean existsByAdopterUuid(UUID adopterUuid);
     Optional<AdopterEntity> findByAdopterUuid(UUID uuid);
-    void deleteByAdopterUuid(UUID uuid);
 }
