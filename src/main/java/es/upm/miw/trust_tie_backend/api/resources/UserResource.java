@@ -19,17 +19,17 @@ public class UserResource {
 
     private final UserService userService;
 
-    @PostMapping(UserResource.LOGIN)
+    @PostMapping(LOGIN)
     public TokenDto login(@Valid @RequestBody LoginDto loginDto) {
         return userService.login(loginDto);
     }
 
-    @PostMapping(UserResource.REGISTER + ADOPTER)
+    @PostMapping(REGISTER + ADOPTER)
     public TokenDto registerAdopter(@Valid @RequestBody RegisterAdopterDto registerAdopterDto) {
         return userService.registerAdopter(registerAdopterDto);
     }
 
-    @PostMapping(UserResource.REGISTER + ORGANIZATION)
+    @PostMapping(REGISTER + ORGANIZATION)
     public TokenDto registerOrganization(@Valid @RequestBody RegisterOrganizationDto registerOrganizationDto) {
         return userService.registerOrganization(registerOrganizationDto);
     }

@@ -6,6 +6,7 @@ import es.upm.miw.trust_tie_backend.persistence.repositories.UserRepository;
 import es.upm.miw.trust_tie_backend.exceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,19 +20,18 @@ public class UserPersistence {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<UserEntity> findByUserUuid(String userUuid) {
-        return userRepository.findByUserUuid(UUID.fromString(userUuid));
-    }
-
     public UserEntity create(User user) {
         assertUserNotExists(user.getEmail());
         return userRepository.save(new UserEntity(user));
     }
 
-    public void assertUserNotExists(String email) {
+    public void delete(UUID userUuid) {
+        userRepository.deleteByUserUuid(userUuid);
+    }
+
+    private void assertUserNotExists(String email) {
         if (findByEmail(email).isPresent()) {
             throw new BadRequestException("Email is already in use");
         }
     }
-
 }

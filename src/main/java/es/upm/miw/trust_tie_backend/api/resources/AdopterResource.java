@@ -15,20 +15,18 @@ public class AdopterResource {
 
     private final AdopterService adopterService;
 
-    @GetMapping(AdopterResource.ADOPTER_UUID)
+    @GetMapping(ADOPTER_UUID)
     public AdopterDto getAdopter(@PathVariable String uuid) {
         return adopterService.getAdopter(uuid);
     }
 
-    @PutMapping(AdopterResource.ADOPTER_UUID)
+    @PutMapping(ADOPTER_UUID)
     public AdopterDto updateAdopter(@PathVariable String uuid, @RequestBody AdopterDto adopterDto, @RequestHeader("Authorization") String authorization) {
         return adopterService.updateAdopter(uuid, adopterDto, authorization);
     }
 
-    @DeleteMapping(AdopterResource.ADOPTER_UUID)
+    @DeleteMapping(ADOPTER_UUID)
     public void deleteAdopter(@PathVariable String uuid, @RequestHeader("Authorization") String authorization) {
-        System.out.println("uuid" + uuid);
-        System.out.println("authorization" + authorization);
         adopterService.deleteAdopter(uuid, authorization);
     }
 }

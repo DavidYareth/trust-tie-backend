@@ -1,7 +1,6 @@
 package es.upm.miw.trust_tie_backend.model.dtos;
 
 import es.upm.miw.trust_tie_backend.model.Adopter;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

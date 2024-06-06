@@ -29,35 +29,47 @@ public class UserService {
     public TokenDto login(LoginDto loginDto) {
         UserEntity userEntity = userPersistence.findByEmail(loginDto.getEmail())
                 .orElseThrow(() -> new BadCredentialsException(INVALID_EMAIL_OR_PASSWORD));
-        if (!passwordEncoder.matches(loginDto.getPassword(), userEntity.getPassword())) {
-            throw new BadCredentialsException(INVALID_EMAIL_OR_PASSWORD);
-        }
-        return new TokenDto(jwtService.createToken(userEntity.getUserUuid().toString(), userEntity.getRole().name()));
+        verifyPassword(loginDto.getPassword(), userEntity.getPassword());
+        return createToken(userEntity);
     }
 
     public TokenDto registerAdopter(RegisterAdopterDto registerAdopterDto) {
-        User user = registerAdopterDto.toUser();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.ADOPTER);
-        UserEntity userEntity = userPersistence.create(user);
-
-        Adopter adopter = new Adopter(registerAdopterDto);
-        adopter.setUser(userEntity.toUser());
-        adopterPersistence.create(adopter);
-
-        return new TokenDto(jwtService.createToken(userEntity.getUserUuid().toString(), userEntity.getRole().name()));
+        UserEntity userEntity = createUser(registerAdopterDto.toUser(), Role.ADOPTER);
+        createAdopter(registerAdopterDto, userEntity);
+        return createToken(userEntity);
     }
 
     public TokenDto registerOrganization(RegisterOrganizationDto registerOrganizationDto) {
-        User user = registerOrganizationDto.toUser();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.ORGANIZATION);
-        UserEntity userEntity = userPersistence.create(user);
+        UserEntity userEntity = createUser(registerOrganizationDto.toUser(), Role.ORGANIZATION);
+        createOrganization(registerOrganizationDto, userEntity);
+        return createToken(userEntity);
+    }
 
+    private void verifyPassword(String rawPassword, String encodedPassword) {
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new BadCredentialsException(INVALID_EMAIL_OR_PASSWORD);
+        }
+    }
+
+    private TokenDto createToken(UserEntity userEntity) {
+        return new TokenDto(jwtService.createToken(userEntity.getUserUuid().toString(), userEntity.getRole().name()));
+    }
+
+    private UserEntity createUser(User user, Role role) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(role);
+        return userPersistence.create(user);
+    }
+
+    private void createAdopter(RegisterAdopterDto registerAdopterDto, UserEntity userEntity) {
+        Adopter adopter = new Adopter(registerAdopterDto);
+        adopter.setUser(userEntity.toUser());
+        adopterPersistence.create(adopter);
+    }
+
+    private void createOrganization(RegisterOrganizationDto registerOrganizationDto, UserEntity userEntity) {
         Organization organization = new Organization(registerOrganizationDto);
         organization.setUser(userEntity.toUser());
         organizationPersistence.create(organization);
-
-        return new TokenDto(jwtService.createToken(userEntity.getUserUuid().toString(), userEntity.getRole().name()));
     }
 }

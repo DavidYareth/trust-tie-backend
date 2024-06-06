@@ -6,13 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
+
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="adopters", uniqueConstraints = {
+@Table(name = "adopters", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"firstName", "lastName", "phone"})
 })
 public class AdopterEntity {
@@ -46,13 +47,8 @@ public class AdopterEntity {
     }
 
     public AdopterEntity(Adopter adopter, UUID adopterUuid) {
+        this(adopter);
         this.adopterUuid = adopterUuid;
-        this.user = new UserEntity(adopter.getUser());
-        this.firstName = adopter.getFirstName();
-        this.lastName = adopter.getLastName();
-        this.phone = adopter.getPhone();
-        this.biography = adopter.getBiography();
-        this.images = adopter.getImages();
     }
 
     public Adopter toAdopter() {
