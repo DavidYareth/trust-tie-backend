@@ -6,13 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
+
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="organizations", uniqueConstraints = {
+@Table(name = "organizations", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name", "phone"})
 })
 public class OrganizationEntity {
@@ -41,5 +42,14 @@ public class OrganizationEntity {
         this.description = organization.getDescription();
         this.website = organization.getWebsite();
         this.images = organization.getImages();
+    }
+
+    public OrganizationEntity(Organization organization, UUID organizationUuid) {
+        this(organization);
+        this.organizationUuid = organizationUuid;
+    }
+
+    public Organization toOrganization() {
+        return new Organization(this.user.toUser(), this.name, this.phone, this.description, this.website, this.images);
     }
 }
