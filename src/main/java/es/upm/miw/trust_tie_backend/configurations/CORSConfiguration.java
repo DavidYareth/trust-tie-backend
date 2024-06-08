@@ -11,7 +11,7 @@ public class CORSConfiguration implements WebMvcConfigurer {
     private String[] allowedOrigins;
 
     @Autowired
-    public CORSConfiguration(@Value("http://localhost:4200") String allowedOrigins) {
+    public CORSConfiguration(@Value("${cors.allowed-origins}") String allowedOrigins) {
         this.setAllowedOrigins(allowedOrigins);
     }
 
