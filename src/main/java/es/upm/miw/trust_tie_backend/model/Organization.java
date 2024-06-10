@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Organization {
     private User user;
+    private UUID organizationUuid;
     private String name;
     private String phone;
     private String description;

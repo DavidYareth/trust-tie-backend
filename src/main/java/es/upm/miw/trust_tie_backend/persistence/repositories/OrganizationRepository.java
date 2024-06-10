@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface OrganizationRepository extends JpaRepository<OrganizationEntity, Long> {
     boolean existsByNameAndPhone(String name, String phone);
     Optional<OrganizationEntity> findByOrganizationUuid(UUID uuid);
+    Optional<OrganizationEntity> findByUser_UserUuid(UUID userUuid);
 }

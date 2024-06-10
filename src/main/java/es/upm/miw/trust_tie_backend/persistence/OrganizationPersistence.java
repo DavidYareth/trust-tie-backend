@@ -26,6 +26,11 @@ public class OrganizationPersistence {
                 .orElseThrow(() -> new NotFoundException("Organization not found: " + organizationUuid));
     }
 
+    public OrganizationEntity findByUserUuid(UUID userUuid) {
+        return organizationRepository.findByUser_UserUuid(userUuid)
+                .orElseThrow(() -> new NotFoundException("Organization not found for user: " + userUuid));
+    }
+
     public OrganizationEntity update(UUID organizationUuid, Organization organization) {
         ensureOrganizationExists(organizationUuid);
         return organizationRepository.save(new OrganizationEntity(organization, organizationUuid));
