@@ -14,7 +14,7 @@ import java.util.List;
 public class EventResource {
 
     public static final String EVENTS = "/events";
-    public static final String EVENT_ID = "/{eventId}";
+    public static final String EVENT_UUID = "/{eventUuid}";
 
     private final EventService eventService;
 
@@ -23,9 +23,9 @@ public class EventResource {
         return eventService.getAllEvents();
     }
 
-    @GetMapping(EVENT_ID)
-    public EventDto getEvent(@PathVariable String eventId) {
-        return eventService.getEvent(eventId);
+    @GetMapping(EVENT_UUID)
+    public EventDto getEvent(@PathVariable String eventUuid) {
+        return eventService.getEvent(eventUuid);
     }
 
     @PostMapping
@@ -34,15 +34,15 @@ public class EventResource {
         return eventService.createEvent(eventDto, authorization);
     }
 
-    @PutMapping(EVENT_ID)
+    @PutMapping(EVENT_UUID)
     @PreAuthorize("hasRole('ORGANIZATION')")
-    public EventDto updateEvent(@PathVariable String eventId, @RequestBody EventDto eventDto, @RequestHeader("Authorization") String authorization) {
-        return eventService.updateEvent(eventId, eventDto, authorization);
+    public EventDto updateEvent(@PathVariable String eventUuid, @RequestBody EventDto eventDto, @RequestHeader("Authorization") String authorization) {
+        return eventService.updateEvent(eventUuid, eventDto, authorization);
     }
 
-    @DeleteMapping(EVENT_ID)
+    @DeleteMapping(EVENT_UUID)
     @PreAuthorize("hasRole('ORGANIZATION')")
-    public void deleteEvent(@PathVariable String eventId, @RequestHeader("Authorization") String authorization) {
-        eventService.deleteEvent(eventId, authorization);
+    public void deleteEvent(@PathVariable String eventUuid, @RequestHeader("Authorization") String authorization) {
+        eventService.deleteEvent(eventUuid, authorization);
     }
 }

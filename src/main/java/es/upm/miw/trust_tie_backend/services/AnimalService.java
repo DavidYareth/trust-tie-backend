@@ -1,6 +1,5 @@
 package es.upm.miw.trust_tie_backend.services;
 
-import es.upm.miw.trust_tie_backend.exceptions.NotFoundException;
 import es.upm.miw.trust_tie_backend.model.Animal;
 import es.upm.miw.trust_tie_backend.model.dtos.AnimalDto;
 import es.upm.miw.trust_tie_backend.persistence.AnimalPersistence;
@@ -40,16 +39,10 @@ public class AnimalService {
     public AnimalDto createAnimal(AnimalDto animalDto, String authorization) {
         UUID userUuid = getUserUuidFromToken(authorization);
         OrganizationEntity organizationEntity = organizationPersistence.findByUserUuid(userUuid);
-        if (organizationEntity == null) {
-            throw new NotFoundException("Organization not found for user: " + userUuid);
-        }
-
         Animal animal = new Animal(animalDto);
         animal.setOrganization(organizationEntity.toOrganization());
-
         AnimalEntity animalEntity = new AnimalEntity(animal, organizationEntity);
         AnimalEntity createdAnimalEntity = animalPersistence.create(animalEntity);
-
         return new AnimalDto(createdAnimalEntity.toAnimal());
     }
 

@@ -1,6 +1,5 @@
 package es.upm.miw.trust_tie_backend.services;
 
-import es.upm.miw.trust_tie_backend.exceptions.NotFoundException;
 import es.upm.miw.trust_tie_backend.model.Event;
 import es.upm.miw.trust_tie_backend.model.dtos.EventDto;
 import es.upm.miw.trust_tie_backend.persistence.EventPersistence;
@@ -30,8 +29,8 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public EventDto getEvent(String eventId) {
-        EventEntity eventEntity = eventPersistence.findByUuid(UUID.fromString(eventId));
+    public EventDto getEvent(String eventUuid) {
+        EventEntity eventEntity = eventPersistence.findByUuid(UUID.fromString(eventUuid));
         Event event = eventEntity.toEvent();
         return new EventDto(event);
     }
@@ -40,38 +39,32 @@ public class EventService {
     public EventDto createEvent(EventDto eventDto, String authorization) {
         UUID userUuid = getUserUuidFromToken(authorization);
         OrganizationEntity organizationEntity = organizationPersistence.findByUserUuid(userUuid);
-        if (organizationEntity == null) {
-            throw new NotFoundException("Organization not found for user: " + userUuid);
-        }
-
         Event event = new Event(eventDto);
         event.setOrganization(organizationEntity.toOrganization());
-
         EventEntity eventEntity = new EventEntity(event, organizationEntity);
         EventEntity createdEventEntity = eventPersistence.create(eventEntity);
-
         return new EventDto(createdEventEntity.toEvent());
     }
 
     @Transactional
-    public EventDto updateEvent(String eventId, EventDto eventDto, String authorization) {
+    public EventDto updateEvent(String eventUuid, EventDto eventDto, String authorization) {
         UUID userUuid = getUserUuidFromToken(authorization);
-        EventEntity existingEventEntity = eventPersistence.findByUuid(UUID.fromString(eventId));
+        EventEntity existingEventEntity = eventPersistence.findByUuid(UUID.fromString(eventUuid));
         Event existingEvent = existingEventEntity.toEvent();
         checkUserAuthorization(existingEvent, userUuid);
-        Event event = new Event(eventDto, UUID.fromString(eventId));
+        Event event = new Event(eventDto, UUID.fromString(eventUuid));
         event.setOrganization(existingEvent.getOrganization());
         EventEntity updatedEventEntity = eventPersistence.update(new EventEntity(event, existingEventEntity.getOrganization()));
         return new EventDto(updatedEventEntity.toEvent());
     }
 
     @Transactional
-    public void deleteEvent(String eventId, String authorization) {
+    public void deleteEvent(String eventUuid, String authorization) {
         UUID userUuid = getUserUuidFromToken(authorization);
-        EventEntity existingEventEntity = eventPersistence.findByUuid(UUID.fromString(eventId));
+        EventEntity existingEventEntity = eventPersistence.findByUuid(UUID.fromString(eventUuid));
         Event existingEvent = existingEventEntity.toEvent();
         checkUserAuthorization(existingEvent, userUuid);
-        eventPersistence.delete(UUID.fromString(eventId));
+        eventPersistence.delete(UUID.fromString(eventUuid));
     }
 
     private void checkUserAuthorization(Event event, UUID userUuid) {

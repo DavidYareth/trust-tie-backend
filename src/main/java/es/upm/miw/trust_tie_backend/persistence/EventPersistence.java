@@ -19,9 +19,9 @@ public class EventPersistence {
         return eventRepository.findAll();
     }
 
-    public EventEntity findByUuid(UUID eventId) {
-        return eventRepository.findById(eventId)
-                .orElseThrow(() -> new NotFoundException("Event not found: " + eventId));
+    public EventEntity findByUuid(UUID eventUuid) {
+        return eventRepository.findById(eventUuid)
+                .orElseThrow(() -> new NotFoundException("Event not found: " + eventUuid));
     }
 
     public EventEntity create(EventEntity eventEntity) {
@@ -33,14 +33,14 @@ public class EventPersistence {
         return eventRepository.save(eventEntity);
     }
 
-    public void delete(UUID eventId) {
-        assertEventExists(eventId);
-        eventRepository.deleteById(eventId);
+    public void delete(UUID eventUuid) {
+        assertEventExists(eventUuid);
+        eventRepository.deleteById(eventUuid);
     }
 
-    private void assertEventExists(UUID eventId) {
-        if (!eventRepository.existsById(eventId)) {
-            throw new NotFoundException("Event not found: " + eventId);
+    private void assertEventExists(UUID eventUuid) {
+        if (!eventRepository.existsById(eventUuid)) {
+            throw new NotFoundException("Event not found: " + eventUuid);
         }
     }
 }
