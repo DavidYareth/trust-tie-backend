@@ -3,6 +3,7 @@ package es.upm.miw.trust_tie_backend.api.resources;
 import es.upm.miw.trust_tie_backend.model.dtos.AnimalDto;
 import es.upm.miw.trust_tie_backend.services.AnimalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +29,19 @@ public class AnimalResource {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ORGANIZATION')")
     public AnimalDto createAnimal(@RequestBody AnimalDto animalDto, @RequestHeader("Authorization") String authorization) {
         return animalService.createAnimal(animalDto, authorization);
     }
 
     @PutMapping(ANIMAL_UUID)
+    @PreAuthorize("hasRole('ORGANIZATION')")
     public AnimalDto updateAnimal(@PathVariable String animalUuid, @RequestBody AnimalDto animalDto, @RequestHeader("Authorization") String authorization) {
         return animalService.updateAnimal(animalUuid, animalDto, authorization);
     }
 
     @DeleteMapping(ANIMAL_UUID)
+    @PreAuthorize("hasRole('ORGANIZATION')")
     public void deleteAnimal(@PathVariable String animalUuid, @RequestHeader("Authorization") String authorization) {
         animalService.deleteAnimal(animalUuid, authorization);
     }

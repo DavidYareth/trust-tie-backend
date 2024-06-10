@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserResource {
 
-    public static final String USER = "/user";
+    public static final String USER = "/users";
     public static final String LOGIN = "/login";
     public static final String REGISTER = "/register";
     public static final String ADOPTER = "/adopter";

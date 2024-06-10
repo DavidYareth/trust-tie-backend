@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AdopterResource {
 
-    public static final String ADOPTER = "/adopter";
+    public static final String ADOPTER = "/adopters";
     public static final String ADOPTER_UUID = "/{uuid}";
 
     private final AdopterService adopterService;

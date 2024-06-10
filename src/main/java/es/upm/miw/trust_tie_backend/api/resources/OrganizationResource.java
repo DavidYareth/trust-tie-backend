@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class OrganizationResource {
 
-    public static final String ORGANIZATION = "/organization";
+    public static final String ORGANIZATION = "/organizations";
     public static final String ORGANIZATION_UUID = "/{uuid}";
 
     private final OrganizationService organizationService;

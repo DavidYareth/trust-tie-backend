@@ -3,6 +3,7 @@ package es.upm.miw.trust_tie_backend.api.resources;
 import es.upm.miw.trust_tie_backend.model.dtos.EventDto;
 import es.upm.miw.trust_tie_backend.services.EventService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +29,19 @@ public class EventResource {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ORGANIZATION')")
     public EventDto createEvent(@RequestBody EventDto eventDto, @RequestHeader("Authorization") String authorization) {
         return eventService.createEvent(eventDto, authorization);
     }
 
     @PutMapping(EVENT_ID)
+    @PreAuthorize("hasRole('ORGANIZATION')")
     public EventDto updateEvent(@PathVariable String eventId, @RequestBody EventDto eventDto, @RequestHeader("Authorization") String authorization) {
         return eventService.updateEvent(eventId, eventDto, authorization);
     }
 
     @DeleteMapping(EVENT_ID)
+    @PreAuthorize("hasRole('ORGANIZATION')")
     public void deleteEvent(@PathVariable String eventId, @RequestHeader("Authorization") String authorization) {
         eventService.deleteEvent(eventId, authorization);
     }
