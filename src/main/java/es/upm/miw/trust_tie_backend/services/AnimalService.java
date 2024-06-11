@@ -35,6 +35,19 @@ public class AnimalService {
         return new AnimalDto(animal);
     }
 
+    public List<AnimalDto> getAnimalsByOrganization(UUID organizationUuid) {
+        return animalPersistence.findByOrganizationUuid(organizationUuid).stream()
+                .map(AnimalEntity::toAnimal)
+                .map(AnimalDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<AnimalDto> getMyAnimals(String authorization) {
+        UUID userUuid = getUserUuidFromToken(authorization);
+        OrganizationEntity organizationEntity = organizationPersistence.findByUserUuid(userUuid);
+        return getAnimalsByOrganization(organizationEntity.getOrganizationUuid());
+    }
+
     @Transactional
     public AnimalDto createAnimal(AnimalDto animalDto, String authorization) {
         UUID userUuid = getUserUuidFromToken(authorization);
@@ -77,4 +90,5 @@ public class AnimalService {
         String token = jwtService.extractToken(authorization);
         return UUID.fromString(jwtService.user(token));
     }
+
 }

@@ -59,7 +59,6 @@ public class AnimalEntity {
         this.deletedAt = animal.getDeletedAt();
     }
 
-
     public Animal toAnimal() {
         return Animal.builder()
                 .animalUuid(this.animalUuid)

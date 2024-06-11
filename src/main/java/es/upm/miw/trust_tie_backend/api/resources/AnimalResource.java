@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(AnimalResource.ANIMALS)
@@ -15,6 +16,8 @@ public class AnimalResource {
 
     public static final String ANIMALS = "/animals";
     public static final String ANIMAL_UUID = "/{animalUuid}";
+    public static final String ORGANIZATION_UUID = "/organization/{organizationUuid}";
+    public static final String MY_ANIMALS = "/my-animals";
 
     private final AnimalService animalService;
 
@@ -26,6 +29,17 @@ public class AnimalResource {
     @GetMapping(ANIMAL_UUID)
     public AnimalDto getAnimal(@PathVariable String animalUuid) {
         return animalService.getAnimal(animalUuid);
+    }
+
+    @GetMapping(ORGANIZATION_UUID)
+    public List<AnimalDto> getAnimalsByOrganization(@PathVariable String organizationUuid) {
+        return animalService.getAnimalsByOrganization(UUID.fromString(organizationUuid));
+    }
+
+    @GetMapping(MY_ANIMALS)
+    @PreAuthorize("hasRole('ORGANIZATION')")
+    public List<AnimalDto> getMyAnimals(@RequestHeader("Authorization") String authorization) {
+        return animalService.getMyAnimals(authorization);
     }
 
     @PostMapping

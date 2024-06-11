@@ -24,6 +24,10 @@ public class EventPersistence {
                 .orElseThrow(() -> new NotFoundException("Event not found: " + eventUuid));
     }
 
+    public List<EventEntity> findByOrganizationUuid(UUID organizationUuid) {
+        return eventRepository.findByOrganization_OrganizationUuid(organizationUuid);
+    }
+
     public EventEntity create(EventEntity eventEntity) {
         return eventRepository.save(eventEntity);
     }

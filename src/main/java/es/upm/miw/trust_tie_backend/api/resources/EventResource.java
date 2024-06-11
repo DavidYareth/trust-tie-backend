@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(EventResource.EVENTS)
@@ -15,6 +16,8 @@ public class EventResource {
 
     public static final String EVENTS = "/events";
     public static final String EVENT_UUID = "/{eventUuid}";
+    public static final String ORGANIZATION_UUID = "/organization/{organizationUuid}";
+    private static final String MY_EVENTS = "/my-events";
 
     private final EventService eventService;
 
@@ -26,6 +29,17 @@ public class EventResource {
     @GetMapping(EVENT_UUID)
     public EventDto getEvent(@PathVariable String eventUuid) {
         return eventService.getEvent(eventUuid);
+    }
+
+    @GetMapping(ORGANIZATION_UUID)
+    public List<EventDto> getEventsByOrganization(@PathVariable String organizationUuid) {
+        return eventService.getEventsByOrganization(UUID.fromString(organizationUuid));
+    }
+
+    @GetMapping(MY_EVENTS)
+    @PreAuthorize("hasRole('ORGANIZATION')")
+    public List<EventDto> getMyEvents(@RequestHeader("Authorization") String authorization) {
+        return eventService.getMyEvents(authorization);
     }
 
     @PostMapping

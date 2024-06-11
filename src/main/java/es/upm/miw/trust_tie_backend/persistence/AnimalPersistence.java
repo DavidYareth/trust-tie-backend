@@ -24,6 +24,10 @@ public class AnimalPersistence {
                 .orElseThrow(() -> new NotFoundException("Animal not found: " + animalUuid));
     }
 
+    public List<AnimalEntity> findByOrganizationUuid(UUID organizationUuid) {
+        return animalRepository.findByOrganization_OrganizationUuid(organizationUuid);
+    }
+
     public AnimalEntity create(AnimalEntity animalEntity) {
         return animalRepository.save(animalEntity);
     }

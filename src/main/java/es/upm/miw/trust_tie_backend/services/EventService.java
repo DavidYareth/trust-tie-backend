@@ -35,6 +35,19 @@ public class EventService {
         return new EventDto(event);
     }
 
+    public List<EventDto> getEventsByOrganization(UUID organizationUuid) {
+        return eventPersistence.findByOrganizationUuid(organizationUuid).stream()
+                .map(EventEntity::toEvent)
+                .map(EventDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<EventDto> getMyEvents(String authorization) {
+        UUID userUuid = getUserUuidFromToken(authorization);
+        OrganizationEntity organizationEntity = organizationPersistence.findByUserUuid(userUuid);
+        return getEventsByOrganization(organizationEntity.getOrganizationUuid());
+    }
+
     @Transactional
     public EventDto createEvent(EventDto eventDto, String authorization) {
         UUID userUuid = getUserUuidFromToken(authorization);
