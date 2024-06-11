@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AnimalDto {
     private String animalUuid;
+    private String organizationUuid;
     private String name;
     private String type;
     private String breed;
@@ -21,6 +22,7 @@ public class AnimalDto {
 
     public AnimalDto(Animal animal) {
         this.animalUuid = animal.getAnimalUuid().toString();
+        this.organizationUuid = animal.getOrganization().getOrganizationUuid().toString();
         this.name = animal.getName();
         this.type = animal.getType();
         this.breed = animal.getBreed();

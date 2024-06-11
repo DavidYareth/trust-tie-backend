@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class EventDto {
     private String eventUuid;
+    private String organizationUuid;
     private String title;
     private String description;
     private LocalDateTime eventDate;
@@ -22,6 +23,7 @@ public class EventDto {
 
     public EventDto(Event event) {
         this.eventUuid = event.getEventUuid().toString();
+        this.organizationUuid = event.getOrganization().getOrganizationUuid().toString();
         this.title = event.getTitle();
         this.description = event.getDescription();
         this.eventDate = event.getEventDate();
