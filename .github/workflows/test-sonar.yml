@@ -21,8 +21,8 @@ jobs:
         if: success()
         run: >
           mvn -B verify -DskipTests sonar:sonar
-          -Dsonar.projectKey=bate-ye-edo_mabills-spring
-          -Dsonar.organization=wolfye98
+          -Dsonar.projectKey=DavidYareth_trust-tie-backend
+          -Dsonar.organization=trust-tie
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.token=$SONAR_TOKEN
         env:
