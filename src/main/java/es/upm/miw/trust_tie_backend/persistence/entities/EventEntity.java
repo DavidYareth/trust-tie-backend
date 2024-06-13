@@ -3,6 +3,7 @@ package es.upm.miw.trust_tie_backend.persistence.entities;
 import es.upm.miw.trust_tie_backend.model.Event;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "events")
 public class EventEntity {
