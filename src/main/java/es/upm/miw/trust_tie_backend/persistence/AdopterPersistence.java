@@ -38,6 +38,11 @@ public class AdopterPersistence {
         return userUuid;
     }
 
+    public AdopterEntity findByUserUuid(UUID userUuid) {
+        return adopterRepository.findByUser_UserUuid(userUuid)
+                .orElseThrow(() -> new NotFoundException("Adopter not found for user: " + userUuid));
+    }
+
     private void ensureAdopterDoesNotExistByDetails(String firstName, String lastName, String phone) {
         if (adopterRepository.existsByFirstNameAndLastNameAndPhone(firstName, lastName, phone)) {
             throw new BadRequestException("Adopter already exists");

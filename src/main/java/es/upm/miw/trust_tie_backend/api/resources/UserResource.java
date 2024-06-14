@@ -16,6 +16,7 @@ public class UserResource {
     public static final String REGISTER = "/register";
     public static final String ADOPTER = "/adopter";
     public static final String ORGANIZATION = "/organization";
+    public static final String PROFILE = "/profile";
 
     private final UserService userService;
 
@@ -32,5 +33,15 @@ public class UserResource {
     @PostMapping(REGISTER + ORGANIZATION)
     public TokenDto registerOrganization(@Valid @RequestBody RegisterOrganizationDto registerOrganizationDto) {
         return userService.registerOrganization(registerOrganizationDto);
+    }
+
+    @GetMapping(PROFILE + ADOPTER)
+    public AdopterDto getAdopterProfile(@RequestHeader("Authorization") String authorization) {
+        return userService.getAdopterProfile(authorization);
+    }
+
+    @GetMapping(PROFILE + ORGANIZATION)
+    public OrganizationDto getOrganizationProfile(@RequestHeader("Authorization") String authorization) {
+        return userService.getOrganizationProfile(authorization);
     }
 }

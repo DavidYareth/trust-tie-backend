@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Adopter {
+    private UUID adopterUuid;
     private User user;
     private String firstName;
     private String lastName;
@@ -27,6 +28,7 @@ public class Adopter {
     }
 
     public Adopter(AdopterDto adopterDto, UUID userUuid) {
+        this.adopterUuid = UUID.fromString(adopterDto.getAdopterUuid());
         this.user = new User(userUuid, adopterDto.getEmail(), adopterDto.getPassword(), Role.ADOPTER);
         this.firstName = adopterDto.getFirstName();
         this.lastName = adopterDto.getLastName();

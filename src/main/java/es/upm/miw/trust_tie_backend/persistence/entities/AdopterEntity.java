@@ -54,6 +54,6 @@ public class AdopterEntity {
     }
 
     public Adopter toAdopter() {
-        return new Adopter(this.user.toUser(), this.firstName, this.lastName, this.phone, this.biography, this.images);
+        return new Adopter(this.adopterUuid, this.user.toUser(), this.firstName, this.lastName, this.phone, this.biography, this.images);
     }
 }

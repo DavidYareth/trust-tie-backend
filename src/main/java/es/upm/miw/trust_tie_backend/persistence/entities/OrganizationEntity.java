@@ -52,6 +52,6 @@ public class OrganizationEntity {
     }
 
     public Organization toOrganization() {
-        return new Organization(this.user.toUser(), this.organizationUuid, this.name, this.phone, this.description, this.website, this.images);
+        return new Organization(this.organizationUuid, this.user.toUser(), this.name, this.phone, this.description, this.website, this.images);
     }
 }

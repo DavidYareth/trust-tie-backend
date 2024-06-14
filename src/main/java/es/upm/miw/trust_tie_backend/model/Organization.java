@@ -13,8 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Organization {
-    private User user;
     private UUID organizationUuid;
+    private User user;
     private String name;
     private String phone;
     private String description;

@@ -5,6 +5,8 @@ import es.upm.miw.trust_tie_backend.model.Role;
 import es.upm.miw.trust_tie_backend.model.User;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -14,6 +16,7 @@ class OrganizationDtoTest {
     void testOrganizationDtoConstructor() {
         User user = new User("org@example.com", "Password1", Role.ORGANIZATION);
         Organization organization = Organization.builder()
+                .organizationUuid(UUID.randomUUID())
                 .user(user)
                 .name("Test Organization")
                 .phone("123456789")
@@ -24,6 +27,7 @@ class OrganizationDtoTest {
 
         OrganizationDto organizationDto = new OrganizationDto(organization);
 
+        assertEquals(organization.getOrganizationUuid().toString(), organizationDto.getOrganizationUuid());
         assertEquals("org@example.com", organizationDto.getEmail());
         assertEquals("Test Organization", organizationDto.getName());
         assertEquals("123456789", organizationDto.getPhone());
@@ -35,6 +39,7 @@ class OrganizationDtoTest {
     @Test
     void testAllArgsConstructorAndBuilder() {
         OrganizationDto organizationDto = OrganizationDto.builder()
+                .organizationUuid(UUID.randomUUID().toString())
                 .email("builder_org@example.com")
                 .password("Password1")
                 .name("Builder Organization")

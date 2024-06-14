@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdopterDto {
+    private String adopterUuid;
     @Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
     private String email;
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$")
@@ -23,6 +24,7 @@ public class AdopterDto {
     private String images;
 
     public AdopterDto(Adopter adopter) {
+        this.adopterUuid = String.valueOf(adopter.getAdopterUuid());
         this.email = adopter.getUser().getEmail();
         this.firstName = adopter.getFirstName();
         this.lastName = adopter.getLastName();

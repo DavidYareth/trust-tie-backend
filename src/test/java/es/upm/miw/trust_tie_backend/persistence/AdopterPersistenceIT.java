@@ -61,6 +61,7 @@ class AdopterPersistenceIT {
                 .build();
 
         adopter = Adopter.builder()
+                .adopterUuid(adopterEntity.getAdopterUuid())
                 .user(user)
                 .firstName("John")
                 .lastName("Doe")
@@ -145,5 +146,22 @@ class AdopterPersistenceIT {
 
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> adopterPersistence.delete(adopterEntity.getAdopterUuid()));
         assertTrue(thrown.getMessage().contains("Adopter not found: " + adopterEntity.getAdopterUuid()));
+    }
+
+    @Test
+    void testFindByUserUuidSuccess() {
+        when(adopterRepository.findByUser_UserUuid(userEntity.getUserUuid())).thenReturn(Optional.of(adopterEntity));
+
+        AdopterEntity foundAdopterEntity = adopterPersistence.findByUserUuid(userEntity.getUserUuid());
+        assertNotNull(foundAdopterEntity);
+        assertEquals(adopterEntity.getFirstName(), foundAdopterEntity.getFirstName());
+    }
+
+    @Test
+    void testFindByUserUuidNotFound() {
+        when(adopterRepository.findByUser_UserUuid(userEntity.getUserUuid())).thenReturn(Optional.empty());
+
+        NotFoundException thrown = assertThrows(NotFoundException.class, () -> adopterPersistence.findByUserUuid(userEntity.getUserUuid()));
+        assertTrue(thrown.getMessage().contains("Adopter not found for user: " + userEntity.getUserUuid()));
     }
 }

@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface AdopterRepository extends JpaRepository<AdopterEntity, Long> {
     boolean existsByFirstNameAndLastNameAndPhone(String firstName, String lastName, String phone);
     Optional<AdopterEntity> findByAdopterUuid(UUID uuid);
+    Optional<AdopterEntity> findByUser_UserUuid(UUID userUuid);
 }

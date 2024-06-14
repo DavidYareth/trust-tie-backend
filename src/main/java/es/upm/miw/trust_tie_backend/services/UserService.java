@@ -8,11 +8,15 @@ import es.upm.miw.trust_tie_backend.model.User;
 import es.upm.miw.trust_tie_backend.persistence.AdopterPersistence;
 import es.upm.miw.trust_tie_backend.persistence.OrganizationPersistence;
 import es.upm.miw.trust_tie_backend.persistence.UserPersistence;
+import es.upm.miw.trust_tie_backend.persistence.entities.AdopterEntity;
+import es.upm.miw.trust_tie_backend.persistence.entities.OrganizationEntity;
 import es.upm.miw.trust_tie_backend.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +49,20 @@ public class UserService {
         return createToken(userEntity);
     }
 
+    public AdopterDto getAdopterProfile(String authorization) {
+        String token = jwtService.extractToken(authorization);
+        UUID userUuid = getUserUuidFromToken(token);
+        AdopterEntity adopterEntity = adopterPersistence.findByUserUuid(userUuid);
+        return new AdopterDto(adopterEntity.toAdopter());
+    }
+
+    public OrganizationDto getOrganizationProfile(String authorization) {
+        String token = jwtService.extractToken(authorization);
+        UUID userUuid = getUserUuidFromToken(token);
+        OrganizationEntity organizationEntity = organizationPersistence.findByUserUuid(userUuid);
+        return new OrganizationDto(organizationEntity.toOrganization());
+    }
+
     private void verifyPassword(String rawPassword, String encodedPassword) {
         if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
             throw new BadCredentialsException(INVALID_EMAIL_OR_PASSWORD);
@@ -71,5 +89,9 @@ public class UserService {
         Organization organization = new Organization(registerOrganizationDto);
         organization.setUser(userEntity.toUser());
         organizationPersistence.create(organization);
+    }
+
+    private UUID getUserUuidFromToken(String token) {
+        return UUID.fromString(jwtService.user(token));
     }
 }

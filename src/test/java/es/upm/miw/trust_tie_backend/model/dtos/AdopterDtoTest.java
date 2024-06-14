@@ -5,6 +5,8 @@ import es.upm.miw.trust_tie_backend.model.Role;
 import es.upm.miw.trust_tie_backend.model.User;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -14,6 +16,7 @@ class AdopterDtoTest {
     void testAdopterDtoConstructor() {
         User user = new User("test@example.com", "Password1", Role.ADOPTER);
         Adopter adopter = Adopter.builder()
+                .adopterUuid(UUID.randomUUID())
                 .user(user)
                 .firstName("John")
                 .lastName("Doe")
@@ -24,6 +27,7 @@ class AdopterDtoTest {
 
         AdopterDto adopterDto = new AdopterDto(adopter);
 
+        assertEquals(adopter.getAdopterUuid().toString(), adopterDto.getAdopterUuid());
         assertEquals("test@example.com", adopterDto.getEmail());
         assertEquals("John", adopterDto.getFirstName());
         assertEquals("Doe", adopterDto.getLastName());
@@ -35,6 +39,7 @@ class AdopterDtoTest {
     @Test
     void testAllArgsConstructorAndBuilder() {
         AdopterDto adopterDto = AdopterDto.builder()
+                .adopterUuid(UUID.randomUUID().toString())
                 .email("builder@example.com")
                 .password("Password1")
                 .firstName("Builder")
