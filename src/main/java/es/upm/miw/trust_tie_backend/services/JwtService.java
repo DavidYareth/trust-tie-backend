@@ -57,7 +57,7 @@ public class JwtService {
                 .orElse("");
     }
 
-    private Optional<DecodedJWT> verify(String token) {
+    Optional<DecodedJWT> verify(String token) {
         try {
             return Optional.of(JWT.require(Algorithm.HMAC256(this.secret))
                     .withIssuer(this.issuer).build()
