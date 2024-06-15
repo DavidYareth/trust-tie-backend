@@ -28,7 +28,7 @@ public class Adopter {
     }
 
     public Adopter(AdopterDto adopterDto, UUID userUuid) {
-        this.adopterUuid = UUID.fromString(adopterDto.getAdopterUuid());
+        this.adopterUuid = adopterDto.getAdopterUuid() != null ? UUID.fromString(adopterDto.getAdopterUuid()) : null;
         this.user = new User(userUuid, adopterDto.getEmail(), adopterDto.getPassword(), Role.ADOPTER);
         this.firstName = adopterDto.getFirstName();
         this.lastName = adopterDto.getLastName();
