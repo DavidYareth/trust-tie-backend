@@ -2,6 +2,7 @@ package es.upm.miw.trust_tie_backend;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -15,6 +16,7 @@ import java.lang.annotation.Target;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:test.properties")
 public @interface UnitTestConfig {
 }

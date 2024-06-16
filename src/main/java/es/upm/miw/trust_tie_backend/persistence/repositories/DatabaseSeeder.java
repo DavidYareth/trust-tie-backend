@@ -3,6 +3,7 @@ package es.upm.miw.trust_tie_backend.persistence.repositories;
 import es.upm.miw.trust_tie_backend.model.Role;
 import es.upm.miw.trust_tie_backend.persistence.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
+@Profile("dev")
 public class DatabaseSeeder {
 
     private final UserRepository userRepository;
@@ -72,7 +74,7 @@ public class DatabaseSeeder {
                 .organizationUuid(UUID.randomUUID())
                 .user(user1)
                 .name("Animal Shelter One")
-                .phone("123456789")
+                .phone("+123456789")
                 .description("A shelter for homeless animals")
                 .website("http://www.animalshelterone.com")
                 .images("image1.jpg")
@@ -82,7 +84,7 @@ public class DatabaseSeeder {
                 .organizationUuid(UUID.randomUUID())
                 .user(user2)
                 .name("Animal Shelter Two")
-                .phone("987654321")
+                .phone("+987654321")
                 .description("Another shelter for homeless animals")
                 .website("http://www.animalsheltertwo.com")
                 .images("image2.jpg")
@@ -93,7 +95,7 @@ public class DatabaseSeeder {
                 .user(adopterUser)
                 .firstName("John")
                 .lastName("Doe")
-                .phone("555123456")
+                .phone("+555123456")
                 .biography("Loves animals and wants to adopt.")
                 .images("adopter_image.jpg")
                 .build());

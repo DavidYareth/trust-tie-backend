@@ -19,6 +19,7 @@ public class AdopterDto {
     private String password;
     private String firstName;
     private String lastName;
+    @Pattern(regexp = "^(\\+\\d{1,15})$")
     private String phone;
     private String biography;
     private String images;

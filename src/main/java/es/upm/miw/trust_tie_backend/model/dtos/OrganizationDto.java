@@ -18,6 +18,7 @@ public class OrganizationDto {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$")
     private String password;
     private String name;
+    @Pattern(regexp = "^(\\+\\d{1,15})$")
     private String phone;
     private String description;
     private String website;
