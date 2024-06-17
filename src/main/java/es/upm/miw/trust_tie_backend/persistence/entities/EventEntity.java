@@ -25,7 +25,6 @@ public class EventEntity {
     private UUID eventUuid;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "organizationUuid", nullable = false)
     private OrganizationEntity organization;
 
     @Column(nullable = false)

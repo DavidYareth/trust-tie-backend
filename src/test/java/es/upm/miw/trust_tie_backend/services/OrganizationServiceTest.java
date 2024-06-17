@@ -6,6 +6,8 @@ import es.upm.miw.trust_tie_backend.model.Role;
 import es.upm.miw.trust_tie_backend.model.dtos.OrganizationDto;
 import es.upm.miw.trust_tie_backend.persistence.OrganizationPersistence;
 import es.upm.miw.trust_tie_backend.persistence.UserPersistence;
+import es.upm.miw.trust_tie_backend.persistence.AnimalPersistence;
+import es.upm.miw.trust_tie_backend.persistence.EventPersistence;
 import es.upm.miw.trust_tie_backend.persistence.entities.OrganizationEntity;
 import es.upm.miw.trust_tie_backend.persistence.entities.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +37,12 @@ class OrganizationServiceTest {
 
     @Mock
     private UserPersistence userPersistence;
+
+    @Mock
+    private AnimalPersistence animalPersistence;
+
+    @Mock
+    private EventPersistence eventPersistence;
 
     @Mock
     private JwtService jwtService;
@@ -122,6 +131,8 @@ class OrganizationServiceTest {
         when(jwtService.extractToken(anyString())).thenReturn(TEST_TOKEN);
         when(jwtService.user(anyString())).thenReturn(TEST_UUID_STRING);
         when(organizationPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(organizationEntity);
+        when(animalPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Collections.emptyList());
+        when(eventPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Collections.emptyList());
 
         doNothing().when(userPersistence).delete(any(UUID.class));
         when(organizationPersistence.delete(any(UUID.class))).thenReturn(TEST_UUID);

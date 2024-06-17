@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -24,12 +23,6 @@ public class OrganizationEntity {
     @UuidGenerator
     @Column(nullable = false, unique = true)
     private UUID organizationUuid;
-
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AnimalEntity> animals;
-
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EventEntity> events;
 
     @OneToOne(fetch = FetchType.EAGER)
     private UserEntity user;
