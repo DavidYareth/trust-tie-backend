@@ -46,15 +46,12 @@ public class OrganizationService {
 
         UUID orgUuid = UUID.fromString(organizationUuid);
 
-        // Delete related animals
         List<AnimalEntity> animals = animalPersistence.findByOrganizationUuid(orgUuid);
         animals.forEach(animal -> animalPersistence.delete(animal.getAnimalUuid()));
 
-        // Delete related events
         List<EventEntity> events = eventPersistence.findByOrganizationUuid(orgUuid);
         events.forEach(event -> eventPersistence.delete(event.getEventUuid()));
 
-        // Delete the organization
         UUID userUuid = organizationPersistence.delete(orgUuid);
         userPersistence.delete(userUuid);
     }

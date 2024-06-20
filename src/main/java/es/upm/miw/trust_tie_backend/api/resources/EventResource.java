@@ -17,7 +17,7 @@ public class EventResource {
     public static final String EVENTS = "/events";
     public static final String EVENT_UUID = "/{eventUuid}";
     public static final String ORGANIZATION_UUID = "/organization/{organizationUuid}";
-    private static final String MY_EVENTS = "/my-events";
+    public static final String MY_EVENTS = "/my-events";
 
     private final EventService eventService;
 
