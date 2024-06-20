@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class UserResourceIT {
+class UserResourceIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -60,7 +60,7 @@ public class UserResourceIT {
     void testLogin() throws Exception {
         Mockito.when(userService.login(Mockito.any())).thenReturn(new TokenDto("token"));
 
-        mockMvc.perform(post(UserResource.USER + UserResource.LOGIN)
+        mockMvc.perform(post(UserResource.USER + UserResource.LOGIN_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(loginDto)))
                 .andExpect(status().isOk())

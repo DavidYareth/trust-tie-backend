@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class AnimalService {
         return animalPersistence.findAll().stream()
                 .map(AnimalEntity::toAnimal)
                 .map(AnimalDto::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public AnimalDto getAnimal(String animalUuid) {
@@ -39,7 +38,7 @@ public class AnimalService {
         return animalPersistence.findByOrganizationUuid(organizationUuid).stream()
                 .map(AnimalEntity::toAnimal)
                 .map(AnimalDto::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<AnimalDto> getMyAnimals(String authorization) {

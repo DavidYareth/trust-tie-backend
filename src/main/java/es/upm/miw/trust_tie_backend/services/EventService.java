@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class EventService {
         return eventPersistence.findAll().stream()
                 .map(EventEntity::toEvent)
                 .map(EventDto::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public EventDto getEvent(String eventUuid) {
@@ -39,7 +38,7 @@ public class EventService {
         return eventPersistence.findByOrganizationUuid(organizationUuid).stream()
                 .map(EventEntity::toEvent)
                 .map(EventDto::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<EventDto> getMyEvents(String authorization) {

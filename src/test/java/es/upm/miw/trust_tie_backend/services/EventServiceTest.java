@@ -16,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,7 +51,7 @@ class EventServiceTest {
     @Test
     void testGetAllEvents() {
         EventEntity eventEntity = createEventEntity();
-        when(eventPersistence.findAll()).thenReturn(Stream.of(eventEntity).collect(Collectors.toList()));
+        when(eventPersistence.findAll()).thenReturn(Stream.of(eventEntity).toList());
 
         List<EventDto> eventDtos = eventService.getAllEvents();
         assertNotNull(eventDtos);
@@ -73,7 +72,7 @@ class EventServiceTest {
     @Test
     void testGetEventsByOrganization() {
         EventEntity eventEntity = createEventEntity();
-        when(eventPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(eventEntity).collect(Collectors.toList()));
+        when(eventPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(eventEntity).toList());
 
         List<EventDto> eventDtos = eventService.getEventsByOrganization(TEST_UUID);
         assertNotNull(eventDtos);
@@ -87,7 +86,7 @@ class EventServiceTest {
         when(jwtService.extractToken(anyString())).thenReturn(TEST_TOKEN);
         when(jwtService.user(anyString())).thenReturn(TEST_UUID_STRING);
         when(organizationPersistence.findByUserUuid(any(UUID.class))).thenReturn(organizationEntity);
-        when(eventPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(createEventEntity()).collect(Collectors.toList()));
+        when(eventPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(createEventEntity()).toList());
 
         List<EventDto> eventDtos = eventService.getMyEvents("Bearer " + TEST_TOKEN);
         assertNotNull(eventDtos);

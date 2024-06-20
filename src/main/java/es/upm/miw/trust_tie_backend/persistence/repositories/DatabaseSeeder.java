@@ -14,6 +14,8 @@ import java.util.UUID;
 @Profile("dev")
 public class DatabaseSeeder {
 
+    private static final String DEFAULT_PASSWORD = "TrustTie@123";
+
     private final UserRepository userRepository;
     private final OrganizationRepository organizationRepository;
     private final AdopterRepository adopterRepository;
@@ -49,7 +51,7 @@ public class DatabaseSeeder {
         UserEntity user1 = userRepository.save(UserEntity.builder()
                 .userUuid(UUID.randomUUID())
                 .email("org1@example.com")
-                .password(passwordEncoder.encode("Password123&"))
+                .password(passwordEncoder.encode(DEFAULT_PASSWORD))
                 .role(Role.ORGANIZATION)
                 .createdAt(LocalDateTime.now())
                 .build());
@@ -57,7 +59,7 @@ public class DatabaseSeeder {
         UserEntity user2 = userRepository.save(UserEntity.builder()
                 .userUuid(UUID.randomUUID())
                 .email("org2@example.com")
-                .password(passwordEncoder.encode("Password123&"))
+                .password(passwordEncoder.encode(DEFAULT_PASSWORD))
                 .role(Role.ORGANIZATION)
                 .createdAt(LocalDateTime.now())
                 .build());
@@ -65,7 +67,7 @@ public class DatabaseSeeder {
         UserEntity adopterUser = userRepository.save(UserEntity.builder()
                 .userUuid(UUID.randomUUID())
                 .email("adopter@example.com")
-                .password(passwordEncoder.encode("Password123&"))
+                .password(passwordEncoder.encode(DEFAULT_PASSWORD))
                 .role(Role.ADOPTER)
                 .createdAt(LocalDateTime.now())
                 .build());
@@ -80,7 +82,7 @@ public class DatabaseSeeder {
                 .images("image1.jpg")
                 .build());
 
-        OrganizationEntity organization2 = organizationRepository.save(OrganizationEntity.builder()
+        organizationRepository.save(OrganizationEntity.builder()
                 .organizationUuid(UUID.randomUUID())
                 .user(user2)
                 .name("Animal Shelter Two")
@@ -90,7 +92,7 @@ public class DatabaseSeeder {
                 .images("image2.jpg")
                 .build());
 
-        AdopterEntity adopter = adopterRepository.save(AdopterEntity.builder()
+        adopterRepository.save(AdopterEntity.builder()
                 .adopterUuid(UUID.randomUUID())
                 .user(adopterUser)
                 .firstName("John")
@@ -100,7 +102,7 @@ public class DatabaseSeeder {
                 .images("adopter_image.jpg")
                 .build());
 
-        AnimalEntity animal1 = animalRepository.save(AnimalEntity.builder()
+        animalRepository.save(AnimalEntity.builder()
                 .animalUuid(UUID.randomUUID())
                 .organization(organization1)
                 .name("Buddy")
@@ -112,7 +114,7 @@ public class DatabaseSeeder {
                 .createdAt(LocalDateTime.now())
                 .build());
 
-        AnimalEntity animal2 = animalRepository.save(AnimalEntity.builder()
+        animalRepository.save(AnimalEntity.builder()
                 .animalUuid(UUID.randomUUID())
                 .organization(organization1)
                 .name("Mittens")
@@ -124,7 +126,7 @@ public class DatabaseSeeder {
                 .createdAt(LocalDateTime.now())
                 .build());
 
-        EventEntity event1 = eventRepository.save(EventEntity.builder()
+        eventRepository.save(EventEntity.builder()
                 .eventUuid(UUID.randomUUID())
                 .organization(organization1)
                 .title("Adoption Day")
@@ -135,7 +137,7 @@ public class DatabaseSeeder {
                 .createdAt(LocalDateTime.now())
                 .build());
 
-        EventEntity event2 = eventRepository.save(EventEntity.builder()
+        eventRepository.save(EventEntity.builder()
                 .eventUuid(UUID.randomUUID())
                 .organization(organization1)
                 .title("Charity Run")

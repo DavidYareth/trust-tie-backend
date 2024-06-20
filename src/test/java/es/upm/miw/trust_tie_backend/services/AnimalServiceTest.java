@@ -15,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,7 +50,7 @@ class AnimalServiceTest {
     @Test
     void testGetAllAnimals() {
         AnimalEntity animalEntity = createAnimalEntity();
-        when(animalPersistence.findAll()).thenReturn(Stream.of(animalEntity).collect(Collectors.toList()));
+        when(animalPersistence.findAll()).thenReturn(Stream.of(animalEntity).toList());
 
         List<AnimalDto> animalDtos = animalService.getAllAnimals();
         assertNotNull(animalDtos);
@@ -72,7 +71,7 @@ class AnimalServiceTest {
     @Test
     void testGetAnimalsByOrganization() {
         AnimalEntity animalEntity = createAnimalEntity();
-        when(animalPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(animalEntity).collect(Collectors.toList()));
+        when(animalPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(animalEntity).toList());
 
         List<AnimalDto> animalDtos = animalService.getAnimalsByOrganization(TEST_UUID);
         assertNotNull(animalDtos);
@@ -86,7 +85,7 @@ class AnimalServiceTest {
         when(jwtService.extractToken(anyString())).thenReturn(TEST_TOKEN);
         when(jwtService.user(anyString())).thenReturn(TEST_UUID_STRING);
         when(organizationPersistence.findByUserUuid(any(UUID.class))).thenReturn(organizationEntity);
-        when(animalPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(createAnimalEntity()).collect(Collectors.toList()));
+        when(animalPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(Stream.of(createAnimalEntity()).toList());
 
         List<AnimalDto> animalDtos = animalService.getMyAnimals("Bearer " + TEST_TOKEN);
         assertNotNull(animalDtos);
