@@ -77,8 +77,12 @@ class AnimalPersistenceIT {
     void testFindByUuidNotFound() {
         when(animalRepository.findById(animalEntity.getAnimalUuid())).thenReturn(Optional.empty());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> animalPersistence.findByUuid(animalEntity.getAnimalUuid()));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::findByUuid);
         assertTrue(thrown.getMessage().contains("Animal not found: " + animalEntity.getAnimalUuid()));
+    }
+
+    private void findByUuid() {
+        animalPersistence.findByUuid(animalEntity.getAnimalUuid());
     }
 
     @Test
@@ -118,8 +122,12 @@ class AnimalPersistenceIT {
     void testUpdateAnimalNotFound() {
         when(animalRepository.existsById(animalEntity.getAnimalUuid())).thenReturn(false);
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> animalPersistence.update(animalEntity));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::updateAnimal);
         assertTrue(thrown.getMessage().contains("Animal not found: " + animalEntity.getAnimalUuid()));
+    }
+
+    private void updateAnimal() {
+        animalPersistence.update(animalEntity);
     }
 
     @Test
@@ -135,7 +143,11 @@ class AnimalPersistenceIT {
     void testDeleteAnimalNotFound() {
         when(animalRepository.existsById(animalEntity.getAnimalUuid())).thenReturn(false);
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> animalPersistence.delete(animalEntity.getAnimalUuid()));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::deleteAnimal);
         assertTrue(thrown.getMessage().contains("Animal not found: " + animalEntity.getAnimalUuid()));
+    }
+
+    private void deleteAnimal() {
+        animalPersistence.delete(animalEntity.getAnimalUuid());
     }
 }

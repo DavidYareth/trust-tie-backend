@@ -57,10 +57,10 @@ class UserResourceIT {
     }
 
     @Test
-    void testLogin() throws Exception {
+    void testLoginUser() throws Exception {
         Mockito.when(userService.login(Mockito.any())).thenReturn(new TokenDto("token"));
 
-        mockMvc.perform(post(UserResource.USER + UserResource.LOGIN_PATH)
+        mockMvc.perform(post(UserResource.USER + UserResource.LOGIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(loginDto)))
                 .andExpect(status().isOk())

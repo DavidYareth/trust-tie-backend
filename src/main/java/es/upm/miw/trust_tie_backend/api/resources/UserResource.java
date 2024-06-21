@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserResource {
 
     public static final String USER = "/users";
-    public static final String LOGIN_PATH = "/login";
+    public static final String LOGIN = "/login";
     public static final String REGISTER = "/register";
     public static final String ADOPTER = "/adopter";
     public static final String ORGANIZATION = "/organization";
@@ -20,8 +20,8 @@ public class UserResource {
 
     private final UserService userService;
 
-    @PostMapping(LOGIN_PATH)
-    public TokenDto login(@Valid @RequestBody LoginDto loginDto) {
+    @PostMapping(LOGIN)
+    public TokenDto loginUser(@Valid @RequestBody LoginDto loginDto) {
         return userService.login(loginDto);
     }
 

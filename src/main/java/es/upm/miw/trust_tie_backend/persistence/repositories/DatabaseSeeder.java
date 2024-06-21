@@ -4,6 +4,7 @@ import es.upm.miw.trust_tie_backend.model.Role;
 import es.upm.miw.trust_tie_backend.persistence.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Profile("dev")
 public class DatabaseSeeder {
 
-    private static final String DEFAULT_PASSWORD = "TrustTie@123";
+    private static final String DEFAULT_PASSWORD_PROPERTY = "default.password";
 
     private final UserRepository userRepository;
     private final OrganizationRepository organizationRepository;
@@ -22,16 +23,28 @@ public class DatabaseSeeder {
     private final AnimalRepository animalRepository;
     private final EventRepository eventRepository;
     private final PasswordEncoder passwordEncoder;
+    private final Environment environment;
+
+    private String defaultPassword;
 
     @Autowired
-    public DatabaseSeeder(UserRepository userRepository, OrganizationRepository organizationRepository, AdopterRepository adopterRepository, AnimalRepository animalRepository, EventRepository eventRepository, PasswordEncoder passwordEncoder) {
+    public DatabaseSeeder(UserRepository userRepository, OrganizationRepository organizationRepository, AdopterRepository adopterRepository, AnimalRepository animalRepository, EventRepository eventRepository, PasswordEncoder passwordEncoder, Environment environment) {
         this.userRepository = userRepository;
         this.organizationRepository = organizationRepository;
         this.adopterRepository = adopterRepository;
         this.animalRepository = animalRepository;
         this.eventRepository = eventRepository;
         this.passwordEncoder = passwordEncoder;
+        this.environment = environment;
+        initializeDefaultPassword();
         deleteAllAndInitializeAndSeedDataBase();
+    }
+
+    private void initializeDefaultPassword() {
+        this.defaultPassword = environment.getProperty(DEFAULT_PASSWORD_PROPERTY);
+        if (this.defaultPassword == null) {
+            throw new IllegalArgumentException("Default password not set in properties");
+        }
     }
 
     public void deleteAllAndInitializeAndSeedDataBase() {
@@ -51,7 +64,7 @@ public class DatabaseSeeder {
         UserEntity user1 = userRepository.save(UserEntity.builder()
                 .userUuid(UUID.randomUUID())
                 .email("org1@example.com")
-                .password(passwordEncoder.encode(DEFAULT_PASSWORD))
+                .password(passwordEncoder.encode(defaultPassword))
                 .role(Role.ORGANIZATION)
                 .createdAt(LocalDateTime.now())
                 .build());
@@ -59,7 +72,7 @@ public class DatabaseSeeder {
         UserEntity user2 = userRepository.save(UserEntity.builder()
                 .userUuid(UUID.randomUUID())
                 .email("org2@example.com")
-                .password(passwordEncoder.encode(DEFAULT_PASSWORD))
+                .password(passwordEncoder.encode(defaultPassword))
                 .role(Role.ORGANIZATION)
                 .createdAt(LocalDateTime.now())
                 .build());
@@ -67,7 +80,7 @@ public class DatabaseSeeder {
         UserEntity adopterUser = userRepository.save(UserEntity.builder()
                 .userUuid(UUID.randomUUID())
                 .email("adopter@example.com")
-                .password(passwordEncoder.encode(DEFAULT_PASSWORD))
+                .password(passwordEncoder.encode(defaultPassword))
                 .role(Role.ADOPTER)
                 .createdAt(LocalDateTime.now())
                 .build());

@@ -80,8 +80,12 @@ class EventPersistenceIT {
     void testFindByUuidNotFound() {
         when(eventRepository.findById(eventEntity.getEventUuid())).thenReturn(Optional.empty());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> eventPersistence.findByUuid(eventEntity.getEventUuid()));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::findByUuid);
         assertTrue(thrown.getMessage().contains("Event not found: " + eventEntity.getEventUuid()));
+    }
+
+    private void findByUuid() {
+        eventPersistence.findByUuid(eventEntity.getEventUuid());
     }
 
     @Test
@@ -122,8 +126,12 @@ class EventPersistenceIT {
     void testUpdateEventNotFound() {
         when(eventRepository.existsById(eventEntity.getEventUuid())).thenReturn(false);
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> eventPersistence.update(eventEntity));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::updateEvent);
         assertTrue(thrown.getMessage().contains("Event not found: " + eventEntity.getEventUuid()));
+    }
+
+    private void updateEvent() {
+        eventPersistence.update(eventEntity);
     }
 
     @Test
@@ -140,7 +148,11 @@ class EventPersistenceIT {
     void testDeleteEventNotFound() {
         when(eventRepository.existsById(eventEntity.getEventUuid())).thenReturn(false);
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> eventPersistence.delete(eventEntity.getEventUuid()));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::deleteEvent);
         assertTrue(thrown.getMessage().contains("Event not found: " + eventEntity.getEventUuid()));
+    }
+
+    private void deleteEvent() {
+        eventPersistence.delete(eventEntity.getEventUuid());
     }
 }

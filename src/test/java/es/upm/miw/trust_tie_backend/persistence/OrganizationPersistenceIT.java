@@ -104,8 +104,12 @@ class OrganizationPersistenceIT {
     void testFindByOrganizationUuidNotFound() {
         when(organizationRepository.findByOrganizationUuid(organizationEntity.getOrganizationUuid())).thenReturn(Optional.empty());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> organizationPersistence.findByOrganizationUuid(organizationEntity.getOrganizationUuid()));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::findByOrganizationUuid);
         assertTrue(thrown.getMessage().contains("Organization not found: " + organizationEntity.getOrganizationUuid()));
+    }
+
+    private void findByOrganizationUuid() {
+        organizationPersistence.findByOrganizationUuid(organizationEntity.getOrganizationUuid());
     }
 
     @Test
@@ -121,8 +125,12 @@ class OrganizationPersistenceIT {
     void testFindByUserUuidNotFound() {
         when(organizationRepository.findByUser_UserUuid(userEntity.getUserUuid())).thenReturn(Optional.empty());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> organizationPersistence.findByUserUuid(userEntity.getUserUuid()));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::findByUserUuid);
         assertTrue(thrown.getMessage().contains("Organization not found for user: " + userEntity.getUserUuid()));
+    }
+
+    private void findByUserUuid() {
+        organizationPersistence.findByUserUuid(userEntity.getUserUuid());
     }
 
     @Test
@@ -141,8 +149,12 @@ class OrganizationPersistenceIT {
     void testUpdateOrganizationNotFound() {
         when(organizationRepository.findByOrganizationUuid(organizationEntity.getOrganizationUuid())).thenReturn(Optional.empty());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> organizationPersistence.update(organizationEntity.getOrganizationUuid(), organization));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::updateOrganization);
         assertTrue(thrown.getMessage().contains("Organization not found: " + organizationEntity.getOrganizationUuid()));
+    }
+
+    private void updateOrganization() {
+        organizationPersistence.update(organizationEntity.getOrganizationUuid(), organization);
     }
 
     @Test
@@ -161,7 +173,11 @@ class OrganizationPersistenceIT {
     void testDeleteOrganizationNotFound() {
         when(organizationRepository.findByOrganizationUuid(organizationEntity.getOrganizationUuid())).thenReturn(Optional.empty());
 
-        NotFoundException thrown = assertThrows(NotFoundException.class, () -> organizationPersistence.delete(organizationEntity.getOrganizationUuid()));
+        NotFoundException thrown = assertThrows(NotFoundException.class, this::deleteOrganization);
         assertTrue(thrown.getMessage().contains("Organization not found: " + organizationEntity.getOrganizationUuid()));
+    }
+
+    private void deleteOrganization() {
+        organizationPersistence.delete(organizationEntity.getOrganizationUuid());
     }
 }
