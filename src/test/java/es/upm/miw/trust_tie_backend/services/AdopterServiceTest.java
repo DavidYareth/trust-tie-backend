@@ -159,6 +159,10 @@ class AdopterServiceTest {
         when(jwtService.user(anyString())).thenReturn(differentUUID.toString());
         when(adopterPersistence.findByAdopterUuid(any(UUID.class))).thenReturn(adopterEntity);
 
-        assertThrows(UnauthorizedException.class, () -> adopterService.updateAdopter(TEST_UUID_STRING, new AdopterDto(), "Bearer " + TEST_TOKEN));
+        assertThrows(UnauthorizedException.class, this::updateAdopterWithException);
+    }
+
+    private void updateAdopterWithException() {
+        adopterService.updateAdopter(TEST_UUID_STRING, new AdopterDto(), "Bearer " + TEST_TOKEN);
     }
 }

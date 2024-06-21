@@ -165,10 +165,10 @@ class OrganizationServiceTest {
         when(jwtService.user(anyString())).thenReturn(differentUUID.toString());
         when(organizationPersistence.findByOrganizationUuid(any(UUID.class))).thenReturn(organizationEntity);
 
-        assertThrows(UnauthorizedException.class, () -> {
-            String token = "Bearer " + TEST_TOKEN;
-            OrganizationDto organizationDto = new OrganizationDto();
-            organizationService.updateOrganization(TEST_UUID_STRING, organizationDto, token);
-        });
+        assertThrows(UnauthorizedException.class, this::updateOrganizationWithException);
+    }
+
+    private void updateOrganizationWithException() {
+        organizationService.updateOrganization(TEST_UUID_STRING, new OrganizationDto(), "Bearer " + TEST_TOKEN);
     }
 }
