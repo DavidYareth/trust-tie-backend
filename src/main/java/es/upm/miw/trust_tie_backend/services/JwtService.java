@@ -41,7 +41,7 @@ public class JwtService {
                 .withNotBefore(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + this.expire * 1000L))
                 .withClaim(UUID_CLAIM, uuid)
-                .withClaim(ROLE_CLAIM, "ROLE_" + role)  // Add ROLE_ prefix
+                .withClaim(ROLE_CLAIM, "ROLE_" + role)
                 .sign(Algorithm.HMAC256(this.secret));
     }
 
